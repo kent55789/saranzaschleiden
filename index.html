@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorful Fire Animation</title>
+<style>
+    canvas {
+        background-color: black;
+    }
+</style>
+</head>
+<body>
+<canvas id="fireCanvas" width="400" height="400"></canvas>
+<script>
+    const canvas = document.getElementById('fireCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const fireColors = ['#ff0000', '#ff6600', '#ffcc00', '#ffff00', '#ccff00', '#66ff00', '#00ff00'];
+
+    function drawFire() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const x = canvas.width / 2;
+        const y = canvas.height - 20;
+        const radius = 10;
+
+        const fireGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        fireGradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        fireGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
+        fireGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = fireGradient;
+        ctx.fill();
+        
+        for (let i = 0; i < fireColors.length; i++) {
+            const color = fireColors[i];
+            ctx.beginPath();
+            ctx.arc(x, y - (i * 20), radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        requestAnimationFrame(drawFire);
+    }
+
+    drawFire();
+</script>
+</body>
+</html>
